@@ -43,6 +43,22 @@ class Reponse
      */
     private $type;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isValidate;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $validationReason;
+
+    public function __construct()
+    {
+        $this->isValidate = false;
+        $this->validationReason = null;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +120,30 @@ class Reponse
     public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function isIsValidate(): ?bool
+    {
+        return $this->isValidate;
+    }
+
+    public function setIsValidate(?bool $isValidate): self
+    {
+        $this->isValidate = $isValidate;
+
+        return $this;
+    }
+
+    public function getValidationReason(): ?string
+    {
+        return $this->validationReason;
+    }
+
+    public function setValidationReason(?string $validationReason): self
+    {
+        $this->validationReason = $validationReason;
 
         return $this;
     }

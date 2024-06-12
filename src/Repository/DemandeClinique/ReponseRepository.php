@@ -39,6 +39,15 @@ class ReponseRepository extends ServiceEntityRepository
         }
     }
 
+    public function findCollectionById(array $ids) {
+
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Reponse[] Returns an array of Reponse objects
 //     */

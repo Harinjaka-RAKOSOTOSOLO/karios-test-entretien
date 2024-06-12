@@ -17,15 +17,17 @@ class ReponseNormalizer extends atoum\test
                 $reponseNormalizer = $this->getTestedInstance()
             )
             ->then
-                ->array($reponseNormalizer->normalize($reponse))
-                    ->isEqualTo([
-                        'id' => 1,
-                        'date_creation' => '2019-01-01 00:00:00',
-                        'titre' => 'titre',
-                        'description' => 'description',
-                        'type' => 1,
-                        'depot' => 1,
-                    ])
+            ->array($reponseNormalizer->normalize($reponse))
+            ->isEqualTo([
+                'id' => 1,
+                'date_creation' => '2019-01-01 00:00:00',
+                'titre' => 'titre',
+                'description' => 'description',
+                'type' => 1,
+                'depot' => 1,
+                'isValidate' => false,
+                'reason' => null,
+            ])
         ;
     }
 
@@ -38,6 +40,8 @@ class ReponseNormalizer extends atoum\test
         $this->calling($reponse)->getDescription = 'description';
         $this->calling($reponse)->getType = 1;
         $this->calling($reponse)->getDepot = $this->getDepot();
+        $this->calling($reponse)->isIsValidate = false;
+        $this->calling($reponse)->getValidationReason = null;
 
         return $reponse;
     }

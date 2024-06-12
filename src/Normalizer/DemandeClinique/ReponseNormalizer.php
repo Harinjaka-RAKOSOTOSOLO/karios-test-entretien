@@ -9,6 +9,7 @@ class ReponseNormalizer implements NormalizerInterface
 {
     public function normalize($object, string $format = null, array $context = [])
     {
+        /** @var Reponse $object */
         return [
             'id' => $object->getId(),
             'date_creation' => $object->getDateCreation()->format('Y-m-d H:i:s'),
@@ -16,6 +17,8 @@ class ReponseNormalizer implements NormalizerInterface
             'description' => $object->getDescription(),
             'depot' => $object->getDepot()->getId(),
             'type' => $object->getType(),
+            'isValidate' => $object->isIsValidate() ?? false, // Si la donnée est null dans la db, on force la valeur boolean à false ici
+            'reason' => $object->getValidationReason(),
         ];
     }
 

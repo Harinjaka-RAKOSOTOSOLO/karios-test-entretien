@@ -2,6 +2,8 @@
 
 namespace App\Manager\DemandeClinique\tests\units;
 
+use App\Entity\DemandeClinique\Reponse;
+use App\Repository\DemandeClinique\ReponseRepository;
 use atoum\atoum;
 
 class ReponseManager extends atoum\test
@@ -9,6 +11,8 @@ class ReponseManager extends atoum\test
     private $entityManagerInterface;
     private $reponseFactory;
     private $reponseValidator;
+    private $reponseRepository;
+
     public function beforeTestMethod($testMethod)
     {
         $this->entityManagerInterface = new \mock\Doctrine\ORM\EntityManagerInterface();
@@ -18,6 +22,18 @@ class ReponseManager extends atoum\test
 
         $this->reponseValidator = new \mock\App\Validator\DemandeClinique\ReponseValidator();
         $this->reponseValidator->getMockController()->valider = null;
+
+        $this->reponseRepository  = new class extends ReponseRepository {
+            public function __construct()
+            {
+            }
+
+            public function findCollectionById($ids)
+            {
+                return [ new Reponse(), new Reponse()];
+            }
+        };
+
     }
 
     public function testCreerOk()
@@ -89,6 +105,26 @@ class ReponseManager extends atoum\test
                         ->never()
         ;
     }
+//
+//    public function testValiderOk()
+//    {
+//        $this->assert('Test validation réponse')
+//            ->given(
+//                $ids = [1,2],
+//                $reason = 'lorem'
+//            )
+//            ->if(
+//                $manager = $this->getTestedInstance()
+//            )
+//            ->then
+//                ->mock($this->entityManagerInterface)
+//                    ->call('persist')
+//                        ->withArguments($this->getReponse())
+//                        ->once()
+//                    ->call('flush')
+//                        ->once()
+//        ;
+//    }
 
     private function getReponse()
     {
@@ -105,7 +141,8 @@ class ReponseManager extends atoum\test
         return $this->newTestedInstance(
             $this->reponseFactory,
             $this->entityManagerInterface,
-            $this->reponseValidator
+            $this->reponseValidator,
+            $this->reponseRepository
         );
     }
 }
